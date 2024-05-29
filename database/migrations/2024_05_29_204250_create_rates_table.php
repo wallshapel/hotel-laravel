@@ -15,6 +15,11 @@ return new class extends Migration
     {
         Schema::create('rates', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('hotel_id')->constrained()->onDelete('cascade');
+            $table->foreignId('season_id')->constrained()->onDelete('cascade');
+            $table->enum('room_type', ['standard', 'premium', 'VIP']);
+            $table->integer('number_of_people');
+            $table->decimal('price', 8, 2);
             $table->timestamps();
         });
     }
