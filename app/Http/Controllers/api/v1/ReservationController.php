@@ -18,8 +18,7 @@ class ReservationController extends Controller
 
     public function index()
     {
-        // return response()->json($this->reservationService->getAll());
-        return "hola";
+        return response()->json($this->reservationService->getAll());
     }
 
     public function store(Request $request)
