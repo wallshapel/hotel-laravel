@@ -21,12 +21,8 @@ use App\Http\Controllers\api\v1\ReservationController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
-
-Route::prefix('api/v1')->group(function () {
+Route::prefix('v1')->group(function () {
     Route::get('hotels', [HotelController::class, 'index']);
     Route::post('hotels', [HotelController::class, 'store']);
     Route::get('hotels/{id}', [HotelController::class, 'show']);
