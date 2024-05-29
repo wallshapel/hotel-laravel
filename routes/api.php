@@ -56,4 +56,7 @@ Route::prefix('api/v1')->group(function () {
     Route::get('reservations/{id}', [ReservationController::class, 'show']);
     Route::put('reservations/{id}', [ReservationController::class, 'update']);
     Route::delete('reservations/{id}', [ReservationController::class, 'destroy']);
+    //
+    Route::get('reservations/check-hotel-availability', [ReservationController::class, 'checkHotelAvailability']);
+    Route::get('reservations/get-hotel-rates', [ReservationController::class, 'getHotelRates']);
 });
