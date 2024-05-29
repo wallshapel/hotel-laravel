@@ -1,0 +1,1 @@
+patrones de diseño: Se empleó la inyección de dependencia, y el patrón dto para no exponer las clases directamente
