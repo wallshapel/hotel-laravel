@@ -93,5 +93,51 @@ class ReservationController extends Controller
             'data' => $hotelRates,
         ], 200);
     }
-    
+
+    public function calculateReservationPrice($hotelId, $roomType, $numberOfRooms, $numberOfPeople, $checkIn, $checkOut)
+    {
+        // Obtener las tarifas aplicables al hotel y al tipo de habitación
+        $rates = Rate::where('hotel_id', $hotelId)
+                     ->where('room_type', $roomType)
+                     ->whereDate('start_date', '<=', $checkIn)
+                     ->whereDate('end_date', '>=', $checkOut)
+                     ->get();
+
+        // Calcular la tarifa total
+        $totalPrice = 0;
+
+        foreach ($rates as $rate) {
+            $daysInRange = Carbon::parse($checkIn)->diffInDays(Carbon::parse($checkOut));
+            $pricePerNight = $rate->price / $rate->number_of_people;
+
+            $totalPrice += $pricePerNight * $numberOfRooms * $numberOfPeople * $daysInRange;
+        }
+
+        return $totalPrice;
+    }
+
+
+    public function calculateReservationPrice(Request $request)
+    {
+        $request->validate([
+            'hotel_id' => 'required|exists:hotels,id',
+            'room_type' => 'required|in:standard,premium,VIP',
+            'number_of_rooms' => 'required|integer|min:1',
+            'number_of_people' => 'required|integer|min:1',
+            'check_in' => 'required|date|after_or_equal:today',
+            'check_out' => 'required|date|after:check_in',
+        ]);
+
+        $totalPrice = $this->reservationService->calculateReservationPrice(
+            $request->hotel_id,
+            $request->room_type,
+            $request->number_of_rooms,
+            $request->number_of_people,
+            $request->check_in,
+            $request->check_out
+        );
+
+        return response()->json(['total_price' => $totalPrice], 200);
+    }
+
 }

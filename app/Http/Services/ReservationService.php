@@ -47,6 +47,13 @@ class ReservationService
         Reservation::findOrFail($id)->delete();
     }
 
+    /**
+     * Verificar disponibilidad de hoteles según la fecha de viaje.
+     *
+     * @param string $checkIn Fecha de check-in
+     * @param string $checkOut Fecha de check-out
+     * @return array Hoteles disponibles
+     */
     public function checkHotelAvailability($checkIn, $checkOut)
     {
         // Obtener todos los hoteles
@@ -105,6 +112,28 @@ class ReservationService
             ->get();
 
         return $rates;
+    }
+
+    public function calculateReservationPrice($hotelId, $roomType, $numberOfRooms, $numberOfPeople, $checkIn, $checkOut)
+    {
+        // Obtener las tarifas aplicables al hotel y al tipo de habitación
+        $rates = Rate::where('hotel_id', $hotelId)
+                     ->where('room_type', $roomType)
+                     ->whereDate('start_date', '<=', $checkIn)
+                     ->whereDate('end_date', '>=', $checkOut)
+                     ->get();
+
+        // Calcular la tarifa total
+        $totalPrice = 0;
+
+        foreach ($rates as $rate) {
+            $daysInRange = Carbon::parse($checkIn)->diffInDays(Carbon::parse($checkOut));
+            $pricePerNight = $rate->price / $rate->number_of_people;
+
+            $totalPrice += $pricePerNight * $numberOfRooms * $numberOfPeople * $daysInRange;
+        }
+
+        return $totalPrice;
     }
 
 }

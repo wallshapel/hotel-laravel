@@ -59,4 +59,5 @@ Route::prefix('api/v1')->group(function () {
     //
     Route::get('reservations/check-hotel-availability', [ReservationController::class, 'checkHotelAvailability']);
     Route::get('reservations/get-hotel-rates', [ReservationController::class, 'getHotelRates']);
+    Route::post('reservations/calculate-price', [ReservationController::class, 'calculateReservationPrice']);
 });
