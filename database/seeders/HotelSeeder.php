@@ -2,35 +2,38 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Hotel;
 
 class HotelSeeder extends Seeder
 {
-    public function run()
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
     {
-        Hotel::create([
-            'name' => 'Barranquilla',
-            'location' => 'Barranquilla, Colombia',
-            'max_capacity' => 4,
-        ]);
+        $hotels = [
+            [
+                'name' => 'Hotel Estelar Alto Prado',
+                'location' => 'Barranquilla'
+            ],
+            [
+                'name' => 'Hotel Spiwak Chipichape Cali',
+                'location' => 'Cali'
+            ],
+            [
+                'name' => 'Hotel Capilla del Mar',
+                'location' => 'Cartagena'
+            ],
+            [
+                'name' => 'JW Marriott Hotel Bogotá',
+                'location' => 'Bogotá'
+            ]
+        ];
 
-        Hotel::create([
-            'name' => 'Cali',
-            'location' => 'Cali, Colombia',
-            'max_capacity' => 6,
-        ]);
-
-        Hotel::create([
-            'name' => 'Cartagena',
-            'location' => 'Cartagena, Colombia',
-            'max_capacity' => 8,
-        ]);
-
-        Hotel::create([
-            'name' => 'Bogotá',
-            'location' => 'Bogotá, Colombia',
-            'max_capacity' => 6,
-        ]);
+        foreach ($hotels as $hotel) {
+            Hotel::create($hotel);
+        }
     }
 }

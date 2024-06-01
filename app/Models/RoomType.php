@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Season extends Model
+class RoomType extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name', 'start_date', 'end_date'
+        'type'
     ];
 
-    public function roomRates()
+    public function rooms()
     {
-        return $this->hasMany(RoomRate::class);
+        return $this->hasMany(Room::class);
     }
-    
+
 }

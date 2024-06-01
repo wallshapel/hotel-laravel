@@ -2,23 +2,32 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Season;
 
 class SeasonSeeder extends Seeder
 {
-    public function run()
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
     {
-        Season::create([
-            'name' => 'Alta',
-            'start_date' => now(),
-            'end_date' => now()->addMonths(6), // Alta temporada dura 6 meses desde ahora
-        ]);
+        $seassons = [
+            [
+                'name' => 'Baja',
+                'start_date' => '2024-01-01',
+                'end_date' => '2024-06-30'
+            ],
+            [
+                'name' => 'Alta',
+                'start_date' => '2024-07-01',
+                'end_date' => '2024-12-31'
+            ]
+        ];
 
-        Season::create([
-            'name' => 'Baja',
-            'start_date' => now()->addMonths(6)->addDays(1), // Comienza un día después de la alta temporada
-            'end_date' => now()->addMonths(12), // Baja temporada dura 6 meses desde la alta
-        ]);
+        foreach ($seassons as $seasson) {
+            Season::create($seasson);
+        }
     }
 }
