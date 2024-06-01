@@ -1,1 +1,1 @@
-patrones de diseño: Se empleó la inyección de dependencia, y el patrón dto para no exponer las clases directamente
+patrones de diseño: Se empleó la inyección de dependencia en el controlador, permitiendo dividir el trabajo de este en un servicio
