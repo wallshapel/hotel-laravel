@@ -89,6 +89,16 @@ class RoomService
             
             // Obtener la temporada por nombre
             $season = Season::where('name', $seasonName)->firstOrFail();
+
+            // Validar que las fechas de check-in y check-out estén dentro de la temporada
+            $seasonStartDate = new \DateTime($season->start_date);
+            $seasonEndDate = new \DateTime($season->end_date);
+            $checkin = new \DateTime($checkinDate);
+            $checkout = new \DateTime($checkoutDate);
+
+            if ($checkin < $seasonStartDate || $checkout > $seasonEndDate) {
+                throw new \Exception('The check-in and check-out dates must be within the selected season.');
+            }
             
             // Obtener la tarifa de la habitación para la temporada especificada
             $roomRate = RoomRate::where('room_id', $room->id)
