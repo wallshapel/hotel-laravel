@@ -85,7 +85,7 @@ class RoomService
 
             // Validar que el número de personas sea menor o igual a la capacidad de la habitación
             if ($numPeople > $room->capacity)
-                throw new \Exception('El número de personas excede la capacidad de la habitación.');
+                throw new \Exception('The number of people exceeds the capacity of the room.');
             
             // Obtener la temporada por nombre
             $season = Season::where('name', $seasonName)->firstOrFail();
